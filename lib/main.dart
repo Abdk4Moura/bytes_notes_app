@@ -20,9 +20,7 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       title: 'Twitter Clone',
       theme: AppTheme.theme,
-      home: DefaultTextStyle(
-          style: baseFontFamily,
-          child: const HomeView()),
+      home: DefaultTextStyle(style: baseFontFamily, child: const HomeView()),
       // home: ref.watch(currentUserAccountProvider).when(
       //       data: (user) {
       //         if (user != null) {
@@ -42,7 +40,7 @@ class MyApp extends ConsumerWidget {
 String reverseString(String inputString) {
   String resultString = '';
   for (int i = 1; i <= inputString.length; i++) {
-    resultString += inputString[inputString.length-i];
+    resultString += inputString[inputString.length - i];
   }
   return resultString;
 }
