@@ -32,8 +32,6 @@ class _NoteListState extends ConsumerState<NoteList>
   Widget build(BuildContext context) {
     super.build(context);
 
-    final listNotes = ref.watch(listNotesProvider);
-
     return ref.watch(listNotesProvider).when(
           data: (notes) {
             return Expanded(
@@ -42,23 +40,16 @@ class _NoteListState extends ConsumerState<NoteList>
                 slivers: <Widget>[
                   SliverPadding(
                     padding: const EdgeInsets.only(top: 20),
-                    sliver: SliverGrid.count(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      children: <Widget>[
-                        ...(NoteSamples.notes
-                            .map((note) => NoteCard(note: note))),
-                        ...(notes.map((v) => NoteCard(
-                                note: NoteModel.fromJson({
-                              'title': 'To-do list',
-                              'content': v,
-                              'createdTime': DateTime.timestamp(),
-                              'description': '',
-                              'color': '${randomLightColor(0.4).value}',
-                              'isPined': false,
-                            })))),
-                      ],
+                    sliver: SliverGrid.builder(
+                      itemBuilder: (BuildContext context, int index) {
+                        return NoteCard(
+                            note: (notes.item1..addAll(notes.item2))[index]);
+                      },
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                      ),
                     ),
                   ),
                 ],
