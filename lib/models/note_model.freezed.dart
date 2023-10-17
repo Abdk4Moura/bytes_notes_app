@@ -20,13 +20,12 @@ NoteModel _$NoteModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$NoteModel {
+  String? get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String get text => throw _privateConstructorUsedError;
-  DateTime? get createdTime =>
-      throw _privateConstructorUsedError; // required bool? isDoneTask,
-// required List<String>? tags,
+  String get content => throw _privateConstructorUsedError;
+  DateTime? get timeCreated => throw _privateConstructorUsedError;
   BigInt? get color => throw _privateConstructorUsedError;
-  bool get isPinned => throw _privateConstructorUsedError;
+  bool? get isPinned => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,11 +39,12 @@ abstract class $NoteModelCopyWith<$Res> {
       _$NoteModelCopyWithImpl<$Res, NoteModel>;
   @useResult
   $Res call(
-      {String title,
-      String text,
-      DateTime? createdTime,
+      {String? id,
+      String title,
+      String content,
+      DateTime? timeCreated,
       BigInt? color,
-      bool isPinned});
+      bool? isPinned});
 }
 
 /// @nodoc
@@ -60,33 +60,38 @@ class _$NoteModelCopyWithImpl<$Res, $Val extends NoteModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? title = null,
-    Object? text = null,
-    Object? createdTime = freezed,
+    Object? content = null,
+    Object? timeCreated = freezed,
     Object? color = freezed,
-    Object? isPinned = null,
+    Object? isPinned = freezed,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
-      createdTime: freezed == createdTime
-          ? _value.createdTime
-          : createdTime // ignore: cast_nullable_to_non_nullable
+      timeCreated: freezed == timeCreated
+          ? _value.timeCreated
+          : timeCreated // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as BigInt?,
-      isPinned: null == isPinned
+      isPinned: freezed == isPinned
           ? _value.isPinned
           : isPinned // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ) as $Val);
   }
 }
@@ -100,11 +105,12 @@ abstract class _$$NoteModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String title,
-      String text,
-      DateTime? createdTime,
+      {String? id,
+      String title,
+      String content,
+      DateTime? timeCreated,
       BigInt? color,
-      bool isPinned});
+      bool? isPinned});
 }
 
 /// @nodoc
@@ -118,33 +124,38 @@ class __$$NoteModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? title = null,
-    Object? text = null,
-    Object? createdTime = freezed,
+    Object? content = null,
+    Object? timeCreated = freezed,
     Object? color = freezed,
-    Object? isPinned = null,
+    Object? isPinned = freezed,
   }) {
     return _then(_$NoteModelImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
-      createdTime: freezed == createdTime
-          ? _value.createdTime
-          : createdTime // ignore: cast_nullable_to_non_nullable
+      timeCreated: freezed == timeCreated
+          ? _value.timeCreated
+          : timeCreated // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as BigInt?,
-      isPinned: null == isPinned
+      isPinned: freezed == isPinned
           ? _value.isPinned
           : isPinned // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ));
   }
 }
@@ -153,31 +164,32 @@ class __$$NoteModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$NoteModelImpl implements _NoteModel {
   const _$NoteModelImpl(
-      {required this.title,
-      required this.text,
-      required this.createdTime,
-      required this.color,
-      required this.isPinned});
+      {this.id,
+      required this.title,
+      required this.content,
+      this.timeCreated,
+      this.color,
+      this.isPinned});
 
   factory _$NoteModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$NoteModelImplFromJson(json);
 
   @override
+  final String? id;
+  @override
   final String title;
   @override
-  final String text;
+  final String content;
   @override
-  final DateTime? createdTime;
-// required bool? isDoneTask,
-// required List<String>? tags,
+  final DateTime? timeCreated;
   @override
   final BigInt? color;
   @override
-  final bool isPinned;
+  final bool? isPinned;
 
   @override
   String toString() {
-    return 'NoteModel(title: $title, text: $text, createdTime: $createdTime, color: $color, isPinned: $isPinned)';
+    return 'NoteModel(id: $id, title: $title, content: $content, timeCreated: $timeCreated, color: $color, isPinned: $isPinned)';
   }
 
   @override
@@ -185,10 +197,11 @@ class _$NoteModelImpl implements _NoteModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NoteModelImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.text, text) || other.text == text) &&
-            (identical(other.createdTime, createdTime) ||
-                other.createdTime == createdTime) &&
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.timeCreated, timeCreated) ||
+                other.timeCreated == timeCreated) &&
             (identical(other.color, color) || other.color == color) &&
             (identical(other.isPinned, isPinned) ||
                 other.isPinned == isPinned));
@@ -196,8 +209,8 @@ class _$NoteModelImpl implements _NoteModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, title, text, createdTime, color, isPinned);
+  int get hashCode => Object.hash(
+      runtimeType, id, title, content, timeCreated, color, isPinned);
 
   @JsonKey(ignore: true)
   @override
@@ -215,26 +228,28 @@ class _$NoteModelImpl implements _NoteModel {
 
 abstract class _NoteModel implements NoteModel {
   const factory _NoteModel(
-      {required final String title,
-      required final String text,
-      required final DateTime? createdTime,
-      required final BigInt? color,
-      required final bool isPinned}) = _$NoteModelImpl;
+      {final String? id,
+      required final String title,
+      required final String content,
+      final DateTime? timeCreated,
+      final BigInt? color,
+      final bool? isPinned}) = _$NoteModelImpl;
 
   factory _NoteModel.fromJson(Map<String, dynamic> json) =
       _$NoteModelImpl.fromJson;
 
   @override
+  String? get id;
+  @override
   String get title;
   @override
-  String get text;
+  String get content;
   @override
-  DateTime? get createdTime;
-  @override // required bool? isDoneTask,
-// required List<String>? tags,
+  DateTime? get timeCreated;
+  @override
   BigInt? get color;
   @override
-  bool get isPinned;
+  bool? get isPinned;
   @override
   @JsonKey(ignore: true)
   _$$NoteModelImplCopyWith<_$NoteModelImpl> get copyWith =>

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bytes_notes_app/common/loading_page.dart';
-import 'package:bytes_notes_app/features/auth/controller/auth_controller.dart';
-import 'package:bytes_notes_app/features/user_profile/controller/user_profile_controller.dart';
-import 'package:bytes_notes_app/features/user_profile/view/user_profile_view.dart';
 import 'package:bytes_notes_app/theme/pallete.dart';
 
 class SideDrawer extends ConsumerWidget {
@@ -11,11 +8,11 @@ class SideDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentUser = ref.watch(currentUserDetailsProvider).value;
+    // final currentUser = ref.watch(currentUserDetailsProvider).value;
 
-    if (currentUser == null) {
-      return const Loader();
-    }
+    // if (currentUser == null) {
+    //   return const Loader();
+    // }
 
     return SafeArea(
       child: Drawer(
@@ -35,10 +32,10 @@ class SideDrawer extends ConsumerWidget {
                 ),
               ),
               onTap: () {
-                Navigator.push(
-                  context,
-                  UserProfileView.route(currentUser),
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Container())
+                    // UserProfileView.route(currentUser),
+                    );
               },
             ),
             ListTile(
@@ -53,14 +50,14 @@ class SideDrawer extends ConsumerWidget {
                 ),
               ),
               onTap: () {
-                ref
-                    .read(userProfileControllerProvider.notifier)
-                    .updateUserProfile(
-                      userModel: currentUser.copyWith(isTwitterBlue: true),
-                      context: context,
-                      bannerFile: null,
-                      profileFile: null,
-                    );
+                // ref
+                //     .read(userProfileControllerProvider.notifier)
+                //     .updateUserProfile(
+                //       userModel: currentUser.copyWith(isTwitterBlue: true),
+                //       context: context,
+                //       bannerFile: null,
+                //       profileFile: null,
+                //     );
               },
             ),
             ListTile(
@@ -75,7 +72,7 @@ class SideDrawer extends ConsumerWidget {
                 ),
               ),
               onTap: () {
-                ref.read(authControllerProvider.notifier).logout(context);
+                // ref.read(authControllerProvider.notifier).logout(context);
               },
             ),
           ],

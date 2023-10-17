@@ -10,28 +10,29 @@ class NoteCard extends ConsumerWidget {
   NoteCard({
     super.key,
     required this.note,
-  }): _i = index++;
+  }) : _i = index++;
 
   static int index = 0;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    int r (int val) => 255 - Random().nextInt(val);
+    int r(int val) => 255 - Random().nextInt(val);
 
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color.fromRGBO(r(80), r(80), r(80), Random().nextDouble())),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color.fromRGBO(r(80), r(80), r(80), Random().nextDouble())),
       child: GestureDetector(
         onTap: () {},
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(note.text, style: const TextStyle(
-                color: Colors.black,
-                fontSize: 16
-              ),),
+              child: Text(
+                note.content,
+                style: const TextStyle(color: Colors.black, fontSize: 16),
+              ),
             ),
-
           ],
         ),
       ),

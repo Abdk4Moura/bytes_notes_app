@@ -1,3 +1,6 @@
+import 'package:bytes_notes_app/domain/di/use_case_provider.dart';
+import 'package:bytes_notes_app/features/note/controller/notes_view_controller.dart';
+import 'package:bytes_notes_app/gen/assets.gen.dart';
 import 'package:bytes_notes_app/models/note_model.dart';
 import 'package:bytes_notes_app/theme/pallete.dart';
 import 'package:bytes_notes_app/theme/typography.dart';
@@ -5,15 +8,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bytes_notes_app/common/error_page.dart';
 import 'package:bytes_notes_app/common/loading_page.dart';
-import 'package:bytes_notes_app/features/note/controller/tweet_controller.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:bytes_notes_app/samples/note_model_samples.dart'
+    show NoteSamples;
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tuple/tuple.dart';
 
-class NoteList extends ConsumerWidget {
+final listNotesProvider =
+    StreamProvider.autoDispose<Tuple2<List<NoteModel>, List<NoteModel>>>((ref) {
+  var useCase = ref.read(getAllNoteUseCaseProvider);
+  return useCase.execute();
+});
+
+class NoteList extends ConsumerStatefulWidget {
+  const NoteList({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ref.read(getDummyProvider).when(
+  ConsumerState createState() => _NoteListState();
+}
+
+class _NoteListState extends ConsumerState<NoteList>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    final listNotes = ref.watch(listNotesProvider);
+
+    return ref.watch(listNotesProvider).when(
           data: (notes) {
-            child:
             return Expanded(
               child: CustomScrollView(
                 primary: false,
@@ -25,38 +47,17 @@ class NoteList extends ConsumerWidget {
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                       children: <Widget>[
+                        ...(NoteSamples.notes
+                            .map((note) => NoteCard(note: note))),
                         ...(notes.map((v) => NoteCard(
                                 note: NoteModel.fromJson({
                               'title': 'To-do list',
-                              'text': v,
+                              'content': v,
                               'createdTime': DateTime.timestamp(),
                               'description': '',
-                              'isDoneTask': false,
-                              'label': '',
+                              'color': '${randomLightColor(0.4).value}',
                               'isPined': false,
                             })))),
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          width: 200,
-                          color: randomLightColor(1),
-                          child: const Text('Sound of screams but the',
-                              style: TextStyle(fontSize: 50)),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          color: randomLightColor(1),
-                          child: const Text('Who scream'),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          color: randomLightColor(1),
-                          child: const Text('Revolution is coming...'),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          color: randomLightColor(1),
-                          child: const Text('Revolution, they...'),
-                        ),
                       ],
                     ),
                   ),
@@ -70,6 +71,10 @@ class NoteList extends ConsumerWidget {
           loading: () => const Loader(),
         );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 class NoteCard extends StatelessWidget {
@@ -85,28 +90,43 @@ class NoteCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: randomLightColor(0.4),
+        color: note.color == null
+            ? Pallete.primaryNoteColor
+            : Color(note.color!.toInt()),
       ),
-      padding: const EdgeInsets.all(20),
-      // color: randomLightColor(1),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('To-do list', style: GlobalTextTheme.noteTitleText),
-              if (true) // TOOD: replace with if (pinned)
-                const Icon(
-                  Icons.push_pin,
-                  color: Pallete.whiteColor,
-                )
-            ],
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(20),
+          onTap: () {},
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            // color: randomLightColor(1),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                        child: Text(note.title,
+                            style: GlobalTextTheme.noteCardTitleText)),
+                    if (note.isPinned ??
+                        false) // TOOD: replace with if (pinned)
+                      Assets.svgs.pin26.svg(width: 20, height: 20)
+                    // const Icon(
+                    //   Icons.push_pin,
+                    //   color: Pallete.whiteColor,
+                    // )
+                  ],
+                ),
+                Expanded(
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(note.content))),
+              ],
+            ),
           ),
-          Expanded(
-              child:
-                  Align(alignment: Alignment.topLeft, child: Text(note.text))),
-        ],
+        ),
       ),
     );
   }

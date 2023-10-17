@@ -58,6 +58,9 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.1
   path_provider: ^2.0.0
   path: ^1.8.3
+  equatable: ^2.0.5
+  tuple: ^2.0.2
+  share: ^2.0.4
 
 dev_dependencies:
   flutter_test:
@@ -70,9 +73,21 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   build_runner: ^2.4.6
+  flutter_gen_runner:
   freezed: ^2.4.5
   json_serializable: ^6.7.1
   drift_dev: ^2.12.1
+  integration_test:
+    sdk: flutter
+
+flutter_gen:
+  output: lib/gen/ # Optional (default: lib/gen/)
+  style: camel-case
+  line_length: 80 # Optional (default: 80)
+
+  # Optional
+  integrations:
+    flutter_svg: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
